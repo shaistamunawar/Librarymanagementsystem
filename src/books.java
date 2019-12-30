@@ -1,117 +1,212 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-  import java.util.Scanner;
-public class books {
-    booklibrary thebook[]=new booklibrary[50];
-    public static int count;
-    Scanner input=new Scanner(System.in);
-    public int comparebookobjects(booklibrary b1,booklibrary b2){
-        if(b1.bookid==b2.bookid){
-            System.out.println("book of this id already exists");
-            return 0;
-        }
-        return 1;
-        
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class Books {
+
+    public String Bookid;
+    public String bookName;
+    public String Publisher;
+    public String Author;
+    public String Bookshelf;
+
+    public static int bookCount;
+    public static int issuedBookCount;
+    public static int returnedBookCount;
+
+    public Books() {
+        Bookid = null;
+        bookName = null;
+        Publisher = null;
+        Author = null;
+        Bookshelf = null;
     }
-    public void addBook(booklibrary b){
-        for(int i=0;i<count;i++){
-            if(this.comparebookobjects(b,this.thebook[i])==0){ 
-                
-                return;
-                        
-                        
-            } 
-            if(count<50){
-                thebook[count]=b;
-                count++;
-            }
-            else{
-                System.out.println("No space left to add new books");
-            }
-            
-            
-        }
+
+    public Books(String bi, String bn, String pub, String aut, String bs) {
+        Bookid = bi;
+        bookName = bn;
+        Publisher = pub;
+        Author = aut;
+        Bookshelf = bs;
     }
-    public void searchbyid(){
-        System.out.println("\t\t\tSearch book by id\n\n");
+
+    @Override
+    public String toString() {
+        return Bookid + ", " + bookName + ", " + Publisher + ", " + Author + ", " + Bookshelf;
+    }
     
-    int bookid;
-    System.out.println("enter id of book");
-    bookid=input.nextInt();
-    int flag=0;
-    System.out.println("bookid\t\tbookname\t\tpublisher\t\tAuthor");
-    for(int i=0;i<count;i++)
-        if(bookid==thebook[i].bookid){
-            System.out.println(thebook[i].bookid+" "+thebook[i].bookName+" "+thebook[i].publisher+" "+thebook[i].author);
-            flag++;
-            return;
-            
+    public static Books[] getAllBooks(String filename) {
+
+        File file = null;
+        int count = 0;
+        
+        if (filename.equals("books")) {
+            file = new File("records\\books.txt");
+            count = bookCount;
+        } else if (filename.equals("issuedBooks")) {
+            file = new File("records\\issuedBooks.txt");
+//            System.out.println(file.toPath());
+            count = issuedBookCount;
+        } else if (filename.equals("returnedBooks")) {
+            file = new File("records\\returnedBooks.txt");
+            count = issuedBookCount;
         }
-    if(flag==0)
-        System.out.println("book doesnot exist!"+bookid);
+        
+        BufferedReader br = null;
+
+        Books[] books = null;
+
+        try {
+            br = new BufferedReader(new FileReader(file));
+            books = new Books[count];
+
+            String line = "";
+            String[] bookArray = new String[5];
+
+            for (int i = 0; (line = br.readLine()) != null; i++) {
+                bookArray = line.split(":");
+//                System.out.println(line);
+                books[i] = new Books(bookArray[0], bookArray[1], bookArray[2], bookArray[3], bookArray[4]);
             }
-    public void showallbooks(){
-        System.out.println("show all books");
-        System.out.println("bookid\t\tbookName\t\tpublisher\t\tauthor");
-        for(int i=0;i<count;i++){
-            System.out.println("bookid="+thebook[i].bookid+"bookname="+thebook[i].bookName+"publisher="+thebook[i].publisher+"auhtor="+thebook[i].author);
-            
+
+        } catch (Exception e) {
         }
+
+//        for (int i=0; i<books.length; i++) {
+//            System.out.println(books[i].toString());
+//        }
+        return books;
     }
-    public void displaymenue(){
-        System.out.println("Enter 0 to exist application");
-        System.out.println("Enter 1 to addBook");
-        System.out.println("Enter 2 Searchid");
-        System.out.println("Enter 3 to showallbooks");
-        System.out.println("Enter 4 to issue book");
-        System.out.println("Enter 5 to return book");
-        
-        
-    }
-    public int Availability(int bookid){
-        for(int i=0;i<count;i++){
-            if(bookid==thebook[i].bookid){
-        
-            if(thebook[i].bookquantitycopy>0){
-                System.out.println("Book is available");
-                return i;
+
+    public static boolean issueBook(String bookID) {
+        File booksFile = new File("records\\books.txt");
+        File issuedBooksFile = new File("records\\issuedBooks.txt");
+
+        BufferedReader br = null;
+        BufferedWriter bw = null;
+        String book = "";
+
+        try {
+            br = new BufferedReader(new FileReader(booksFile));
+
+            String line = "";
+            String[] bookArray = new String[5];
+
+            for (int i = 0; (line = br.readLine()) != null; i++) {
+                bookArray = line.split(":");
+                if (bookArray[0].equals(bookID)) {
+                    book = line;
+                    //bw.write(line);
+                    Books.countBooks("books");
+                    Books.countBooks("issuedBooks");
+                    //System.out.println(line);
+                    //return true;
+                }
             }
-            System.out.println("Book is Unavailable");
-            return-1;
-    }
-       
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-         return -1;
+
+        try {
+            bw = new BufferedWriter(new FileWriter(issuedBooksFile.getAbsoluteFile(), true));
+            bw.write(book + "\r\n");
+            bw.flush();
+
+            return true;
+        } catch (Exception e) {
+
+        }
+
+        return false;
     }
-    public booklibrary issuebook(){
-        System.out.println("Enter bookid");
-        int bookid=input.nextInt();
-        int bookindex=Availability(bookid);
-        if(bookindex!=-1){
-            thebook[bookindex].bookquantitycopy--;
+
+    public static boolean returnBook(String bookID) {
+        File returnedBooksFile = new File("records\\returnedBooks.txt");
+        File issuedBooksFile = new File("records\\issuedBooks.txt");
+        Books.countBooks("");
+        
+        BufferedReader br = null;
+        BufferedWriter bw = null;
+        String book = "";
+        String[] issuedBooks = new String[Books.issuedBookCount];
+        
+        try {
+            br = new BufferedReader(new FileReader(issuedBooksFile));
+
+            String line = "";
+            String[] bookArray = new String[5];
+
+            for (int i = 0; (line = br.readLine()) != null; i++) {
+                bookArray = line.split(":");
+                if (bookArray[0].equals(bookID)) {
+                    book = line;
+                    Books.countBooks("books");
+                }
+                else {
+                    issuedBooks[i] = line;
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            bw = new BufferedWriter(new FileWriter(returnedBooksFile.getAbsoluteFile(), true));
+            bw.write(book + "\r\n");
+            bw.flush();
             
-           return thebook[bookindex];
+        } catch (Exception e) {
         }
-        return null;
+        
+        try {
+            bw = new BufferedWriter(new FileWriter(issuedBooksFile));
+            for (int i=0; i<issuedBooks.length-1; i++) {
+                bw.write(issuedBooks[i] + "\r\n");
+            }
+            bw.flush();
+            
+            return true;
+        } catch (Exception e) {
+        }
+
+        return false;
+    }
+    
+    public static void countBooks(String filename) {
+        File file;
+        BufferedReader br = null;
+        
+        bookCount = 0;
+        issuedBookCount = 0;
+        returnedBookCount = 0;
+        
+        try {
+            file = new File("records\\books.txt");
+            br = new BufferedReader(new FileReader(file));
+            while (br.readLine() != null) {
+                bookCount++;
+            }
+            
+            file = new File("records\\issuedBooks.txt");
+            br = new BufferedReader(new FileReader(file));
+            while (br.readLine() != null) {
+                issuedBookCount++;
+            }
+            
+            file = new File("records\\returnedBooks.txt");
+            br = new BufferedReader(new FileReader(file));
+            while (br.readLine() != null) {
+                returnedBookCount++;
+            }
+        } catch (Exception e) {
+        }
         
     }
-    public void returnbook(booklibrary b){
-    for(int i=0;i<count;i++){
-        if(b.equals(thebook[i])){
-            thebook[i].bookquantitycopy++;
-            return;
-        }
-        
-    
-        }
-}
-    
-        
- 
-        
-    
+
 }

@@ -1,0 +1,14 @@
+1:Intro to Physics:CUI:Ali:Science
+2:Awesome Math:CUI:Najam:Science
+3:Uncertain JAVA:CUI:Ahmad:Programming
+4:Uncertain JAVA:CUI:Ahmad:Programming
+5:Uncertain JAVA:CUI:Ahmad:Programming
+6:Uncertain JAVA:CUI:Ahmad:Programming
+7:Uncertain JAVA:CUI:Ahmad:Programming
+8:Uncertain JAVA:CUI:Ahmad:Programming
+9:Uncertain JAVA:CUI:Ahmad:Programming
+10:Uncertain JAVA:CUI:Ahmad:Programming
+11:Uncertain JAVA:CUI:Ahmad:Programming
+12:Uncertain JAVA:CUI:Ahmad:Programming
+13:Uncertain JAVA:CUI:Ahmad:Programming
+14:HandsOn Graphic Design:CUI:John:Design
