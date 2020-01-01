@@ -12,3 +12,4 @@
 12:Uncertain JAVA:CUI:Ahmad:Programming
 13:Uncertain JAVA:CUI:Ahmad:Programming
 14:HandsOn Graphic Design:CUI:John:Design
+15:Psychology 101:CUI:Saima:Humanities

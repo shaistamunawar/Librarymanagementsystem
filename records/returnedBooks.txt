@@ -1,3 +1,12 @@
 10:Uncertain JAVA:CUI:Ahmad:Programming
 5:Uncertain JAVA:CUI:Ahmad:Programming
 3:Uncertain JAVA:CUI:Ahmad:Programming
+15:Psychology 101:CUI:Saima:Humanities
+14:HandsOn Graphic Design:CUI:John:Design
+10:Uncertain JAVA:CUI:Ahmad:Programming
+1:Intro to Physics:CUI:Ali:Science
+2:Awesome Math:CUI:Najam:Science
+4:Uncertain JAVA:CUI:Ahmad:Programming
+11:Uncertain JAVA:CUI:Ahmad:Programming
+7:Uncertain JAVA:CUI:Ahmad:Programming
+1:Intro to Physics:CUI:Ali:Science

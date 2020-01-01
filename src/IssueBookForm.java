@@ -48,6 +48,7 @@ public class IssueBookForm extends javax.swing.JFrame {
         Books[] books = Books.getAllBooks("issuedBooks");
 //        System.out.println(Books.issuedBookCount);
 //        System.out.println(books.length);
+        Books.countBooks("");
         for (int i = 0; i < Books.issuedBookCount; i++) {
             Object[] obj = {books[i].Bookid, books[i].bookName, books[i].Publisher, books[i].Author, books[i].Bookshelf};
             dtm.addRow(obj);

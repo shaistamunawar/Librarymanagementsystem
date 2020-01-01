@@ -43,7 +43,8 @@ public class ReturnBookForm extends javax.swing.JFrame {
     public void populateTable() {
         Books.countBooks("returnedBooks");
         Books[] books = Books.getAllBooks("returnedBooks");
-//        System.out.println(Books.issuedBookCount);
+        Books.countBooks("");
+//        System.out.println(Books.returnedBookCount);
 //        System.out.println(books.length);
         for (int i = 0; i < Books.returnedBookCount; i++) {
             Object[] obj = {books[i].Bookid, books[i].bookName, books[i].Publisher, books[i].Author, books[i].Bookshelf};
@@ -228,7 +229,7 @@ public class ReturnBookForm extends javax.swing.JFrame {
         String jLabel4 = edition.getText();
         try {
             if(Books.returnBook(jLabel6))
-                JOptionPane.showMessageDialog(this, "BOOK ERTURNED");
+                JOptionPane.showMessageDialog(this, "BOOK RETURNED");
             else 
                 JOptionPane.showMessageDialog(this, "Book Not Found!");
         } catch (Exception e) {
@@ -246,7 +247,7 @@ public class ReturnBookForm extends javax.swing.JFrame {
             File file = new File("records\\returnedBooks.txt");
             BufferedReader br = new BufferedReader(new FileReader(file));
             Books.countBooks("returnedBooks");
-            Books[] books = new Books[Books.issuedBookCount];
+            Books[] books = new Books[Books.returnedBookCount];
 
             String line = "";
             String[] bookArray = new String[5];

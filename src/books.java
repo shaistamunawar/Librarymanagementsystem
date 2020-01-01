@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -55,7 +56,7 @@ public class Books {
             count = issuedBookCount;
         } else if (filename.equals("returnedBooks")) {
             file = new File("records\\returnedBooks.txt");
-            count = issuedBookCount;
+            count = returnedBookCount;
         }
         
         BufferedReader br = null;
@@ -73,6 +74,7 @@ public class Books {
                 bookArray = line.split(":");
 //                System.out.println(line);
                 books[i] = new Books(bookArray[0], bookArray[1], bookArray[2], bookArray[3], bookArray[4]);
+//                System.out.println(line+"\n");
             }
 
         } catch (Exception e) {
@@ -103,8 +105,7 @@ public class Books {
                 if (bookArray[0].equals(bookID)) {
                     book = line;
                     //bw.write(line);
-                    Books.countBooks("books");
-                    Books.countBooks("issuedBooks");
+                    Books.countBooks("");
                     //System.out.println(line);
                     //return true;
                 }
@@ -134,7 +135,7 @@ public class Books {
         BufferedReader br = null;
         BufferedWriter bw = null;
         String book = "";
-        String[] issuedBooks = new String[Books.issuedBookCount];
+        String[] issuedBooks = new String[Books.issuedBookCount-1];
         
         try {
             br = new BufferedReader(new FileReader(issuedBooksFile));
@@ -142,16 +143,18 @@ public class Books {
             String line = "";
             String[] bookArray = new String[5];
 
-            for (int i = 0; (line = br.readLine()) != null; i++) {
+            for (int i = 0; (line = br.readLine()) != null; ) {
                 bookArray = line.split(":");
                 if (bookArray[0].equals(bookID)) {
                     book = line;
-                    Books.countBooks("books");
                 }
                 else {
                     issuedBooks[i] = line;
+                    i++;
                 }
             }
+            System.out.println(Arrays.toString(issuedBooks));
+            Books.countBooks("");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
